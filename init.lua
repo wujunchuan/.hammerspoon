@@ -183,41 +183,53 @@ hs.hotkey.bind(superKey, "d", function()
     end
 end)
 
+if hs.location.servicesEnabled() then
+    hs.location.start()
+    
+    local location = hs.location.get()
+    if location then
+        print("Current Location:")
+        print("Latitude: " .. location.latitude)
+        print("Longitude: " .. location.longitude)
+        print("Altitude: " .. location.altitude)
+        print("Horizontal Accuracy: " .. location.horizontalAccuracy)
+        print("Vertical Accuracy: " .. location.verticalAccuracy)
+    else
+        print("Unable to retrieve location information.")
+    end    
+    hs.location.stop()
+else
+    print("Location services are not enabled.")
+end
+
 --[[ wifi 监听 ]]
 wifiWatcher = nil
 homeSSID = "XiaomiSB_5G"
+officeSSID = "GD-Office"
 lastSSID = hs.wifi.currentNetwork()
 function ssidChangedCallback()
     newSSID = hs.wifi.currentNetwork()
 
+    --[[ 办公室 wifi 监听 ]]
+    if newSSID == officeSSID and lastSSID ~= officeSSID then
+        print("Joined Office WiFi")
+    elseif newSSID ~= officeSSID and lastSSID == officeSSID then
+        print("Departed Office WiFi")
+    end
+
+    --[[ 家里 wifi 监听 ]]
     if newSSID == homeSSID and lastSSID ~= homeSSID then
         -- We just joined our home WiFi network
-        hs.alert.show("Joined Home WiFi")
+        print("Joined Home WiFi")
         hs.audiodevice.defaultOutputDevice():setVolume(25)
     elseif newSSID ~= homeSSID and lastSSID == homeSSID then
-        hs.alert.show("Departed Home WiFi")
+        print("Departed Home WiFi")
         -- We just departed our home WiFi network
         hs.audiodevice.defaultOutputDevice():setVolume(0)
     end
 
     lastSSID = newSSID
 end
-
 wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
 wifiWatcher:start()
-
--- mic_ui = {
---     includeNonVisible = false, -- 不显示后台应用窗口
---     includeOtherSpaces = false, -- 不显示其它桌面窗口
-
---     -- 颜色格式为 RGB，最后一位是透明度A
---     highlightThumbnailStrokeWidth = 0, -- 取消橙色的边宽
---     backgroundColor = {0, 0, 0, 0.1}, -- ui 的背景颜色，这里改为透明
---     showTitles = false, -- 隐藏标题
--- }
-
--- -- hyper 指 Com + Con + Opt 三个修饰键
--- hs.hotkey.bind(hyper, 't', function()
---     hs.expose.new(nil, mic_ui):toggleShow()
--- end)
 
