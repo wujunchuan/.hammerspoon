@@ -5,14 +5,16 @@ local spaces = hs.spaces -- 用于检测 Mission Control
 local application = hs.application -- 用于处理应用程序
 
 --[[ HyperKey ]]
-local hyper = {'cmd', 'ctrl', 'alt', 'shift'}
 local HyperKey = hs.loadSpoon("HyperKey")
-hyperKey = HyperKey:new(hyper, {
-    overlayTimeoutMs = 1000,
-})
 
---[[ SuperKey ]]
-local superKey = {'cmd', 'alt', 'ctrl'}
+local hyper = {'cmd', 'ctrl', 'alt', 'shift'}
+local super = {'cmd', 'alt', 'ctrl'}
+local hyperKeyConfig = {
+    overlayTimeoutMs = 1000
+}
+
+hyperKey = HyperKey:new(hyper, hyperKeyConfig)
+superKey = HyperKey:new(super, hyperKeyConfig)
 
 --[[ 切换应用 ]]
 hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
@@ -26,6 +28,38 @@ hyperKey:bind('m'):toApplication('/Applications/iPhone Mirroring.app')
 hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
 hyperKey:bind('y'):toApplication('/Applications/DingTalk.app')
 
+--[[ 
+    在相同应用中切换焦点,
+    与 `right_command + `` 不同的是，前者会在所有应用中切换焦点，而后者只会在当前应用与前一个应用中切换焦点
+ ]]
+hyperKey:bind('`'):toFunction('在相同应用中切换焦点', function()
+    local focusedWindow = window.focusedWindow()
+    local currentApp = focusedWindow:application()
+    local allWindows = currentApp:allWindows()
+
+    -- Filter out minimized/hidden windows
+    local visibleWindows = {}
+    for _, win in ipairs(allWindows) do
+        if win:isVisible() and not win:isMinimized() then
+            table.insert(visibleWindows, win)
+        end
+    end
+
+    if #visibleWindows > 1 then
+        -- Find current window index
+        local currentIndex = 1
+        for i, win in ipairs(visibleWindows) do
+            if win:id() == focusedWindow:id() then
+                currentIndex = i
+                break
+            end
+        end
+
+        -- Focus next window (wrap around to first if at end)
+        local nextIndex = (currentIndex >= #visibleWindows) and 1 or (currentIndex + 1)
+        visibleWindows[nextIndex]:focus()
+    end
+end)
 
 --[[ 音量调整 ]]
 function changeVolume(diff)
@@ -41,33 +75,34 @@ function changeVolume(diff)
     end
 end
 
-hs.hotkey.bind(superKey, 'a', changeVolume(-5))
-hs.hotkey.bind(superKey, 's', changeVolume(5))
+superKey:bind('a'):toFunction('音量减小', changeVolume(-5))
+superKey:bind('s'):toFunction('音量增大', changeVolume(5))
 
 --[[ 切换静音/非静音 ]]
-hs.hotkey.bind(superKey, "m", function()
+superKey:bind('m'):toFunction('切换静音/非静音', function()
     hs.audiodevice.defaultOutputDevice():setMuted(not hs.audiodevice.defaultOutputDevice():muted())
 end)
+
 --[[ 播放/暂停音乐 ]]
-hs.hotkey.bind(superKey, "f", function()
+superKey:bind('f'):toFunction('播放/暂停音乐', function()
     hs.itunes.playpause()
 end)
 
 --[[ Hammer 开发调试，用 superKey 绑定 ]]
 --[[ 重载配置Key ]]
-hs.hotkey.bind(superKey, "r", function()
+superKey:bind('r'):toFunction('重载配置', function()
     hs.reload()
 end)
 
 hs.alert.show("Hammerspoon Config loaded")
 
 --[[ Show HammerspoonKey Console ]]
-hs.hotkey.bind(superKey, "`", function()
+superKey:bind('`'):toFunction('显示 Hammerspoon 控制台', function()
     hs.toggleConsole()
 end)
 
 --[[ 切换深色/浅色模式 ]]
-hs.hotkey.bind(superKey, "d", function()
+superKey:bind('d'):toFunction('切换深色/浅色模式', function()
     local darkMode = hs.osascript.applescript([[
         tell application "System Events"
             tell appearance preferences
