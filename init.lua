@@ -185,7 +185,7 @@ end)
 
 if hs.location.servicesEnabled() then
     hs.location.start()
-    
+
     local location = hs.location.get()
     if location then
         print("Current Location:")
@@ -196,7 +196,7 @@ if hs.location.servicesEnabled() then
         print("Vertical Accuracy: " .. location.verticalAccuracy)
     else
         print("Unable to retrieve location information.")
-    end    
+    end
     hs.location.stop()
 else
     print("Location services are not enabled.")
@@ -233,3 +233,8 @@ end
 wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
 wifiWatcher:start()
 
+--[[ demo: 使用 URL 自动化 Hammerspoon ]]
+--[[ 使用方式： `open -g hammerspoon://someAlert` ]]
+hs.urlevent.bind("someAlert", function(eventName, params)
+    hs.alert.show("Received someAlert")
+end)
