@@ -4,17 +4,49 @@ local hotkey = hs.hotkey -- 用于绑定键盘快捷键
 local spaces = hs.spaces -- 用于检测 Mission Control
 local application = hs.application -- 用于处理应用程序
 
---[[ HyperKey ]]
+--[[ init HyperKey ]]
 local HyperKey = hs.loadSpoon("HyperKey")
-
 local hyper = {'cmd', 'ctrl', 'alt', 'shift'}
 local super = {'cmd', 'alt', 'ctrl'}
 local hyperKeyConfig = {
-    overlayTimeoutMs = 1000
+    overlayTimeoutMs = 2000
 }
-
 hyperKey = HyperKey:new(hyper, hyperKeyConfig)
 superKey = HyperKey:new(super, hyperKeyConfig)
+
+--[[ 切换应用,相同的应用会切换到下一个窗口 ]]
+--[[ 切换应用 ]]
+local function switch_to_app(appName, bundleID)
+    return function()
+        -- Get focused window and app
+        local focusedWindow = window.focusedWindow()
+        local focusedApp = focusedWindow and focusedWindow:application()
+
+        -- If already focused on target app, cycle between its windows
+        if focusedApp and (focusedApp:name() == appName or focusedApp:bundleID() == bundleID) then
+            local appWindows = focusedApp:allWindows()
+            if #appWindows > 1 then
+                -- Find current window index
+                local currentIndex = 1
+                for i, win in ipairs(appWindows) do
+                    if win == focusedWindow then
+                        currentIndex = i
+                        break
+                    end
+                end
+                -- Focus next window (wrap around to first)
+                local nextIndex = currentIndex % #appWindows + 1
+                appWindows[nextIndex]:focus()
+                return
+            end
+        end
+
+        application.launchOrFocus(appName)
+    end
+end
+
+-- 需要用到 loop 窗口的特性
+hs.hotkey.bind(hyper, "y", switch_to_app("DingTalk", "com.alibaba.DingTalkMac"))
 
 --[[ 切换应用 ]]
 hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
@@ -26,7 +58,6 @@ hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('f'):toApplication('/Applications/Figma.app')
 hyperKey:bind('m'):toApplication('/Applications/iPhone Mirroring.app')
 hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
-hyperKey:bind('y'):toApplication('/Applications/DingTalk.app')
 
 --[[ 
     在相同应用中切换焦点,
