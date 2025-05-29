@@ -4,129 +4,28 @@ local hotkey = hs.hotkey -- 用于绑定键盘快捷键
 local spaces = hs.spaces -- 用于检测 Mission Control
 local application = hs.application -- 用于处理应用程序
 
-local hyperKey = {'cmd', 'ctrl', 'alt', 'shift'}
+--[[ HyperKey ]]
+local hyper = {'cmd', 'ctrl', 'alt', 'shift'}
+local HyperKey = hs.loadSpoon("HyperKey")
+hyperKey = HyperKey:new(hyper, {
+    overlayTimeoutMs = 1000,
+})
+
+--[[ SuperKey ]]
 local superKey = {'cmd', 'alt', 'ctrl'}
 
 --[[ 切换应用 ]]
-local function switch_to_app(appName, bundleID)
-    return function()
-        -- Get focused window and app
-        local focusedWindow = window.focusedWindow()
-        local focusedApp = focusedWindow and focusedWindow:application()
+hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
+hyperKey:bind('g'):toApplication('/Applications/Google Chrome.app')
+hyperKey:bind('e'):toApplication('/Applications/Cursor.app')
+hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
+hyperKey:bind('i'):toApplication('/Applications/Warp.app')
+hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
+hyperKey:bind('f'):toApplication('/Applications/Figma.app')
+hyperKey:bind('m'):toApplication('/Applications/iPhone Mirroring.app')
+hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
+hyperKey:bind('y'):toApplication('/Applications/DingTalk.app')
 
-        -- If already focused on target app, cycle between its windows
-        if focusedApp and focusedApp:name() == appName then
-            local appWindows = focusedApp:allWindows()
-            if #appWindows > 1 then
-                -- Find current window index
-                local currentIndex = 1
-                for i, win in ipairs(appWindows) do
-                    if win == focusedWindow then
-                        currentIndex = i
-                        break
-                    end
-                end
-                -- Focus next window (wrap around to first)
-                local nextIndex = currentIndex % #appWindows + 1
-                appWindows[nextIndex]:focus()
-                return
-            end
-        end
-
-        application.launchOrFocus(bundleID or appName)
-    end
-end
-
-local labels = {} -- 数组，用于存储绘制的标签
-local mcHotkeys = {} -- 数组，用于存储 Mission Control 中的快捷键
-
-local function showLabelsInMissionControl()
-    print("Mission Control activated - Showing window labels")
-    for _, label in ipairs(labels) do
-        label:delete()
-    end
-    labels = {} -- 清空数组
-
-    for _, hk in pairs(mcHotkeys) do
-        hk:delete()
-    end
-    mcHotkeys = {} -- 清空数组
-
-    local visibleWindows = window.visibleWindows() -- 获取所有可见窗口列表
-    if #visibleWindows == 0 then
-        return
-    end -- 如果没有窗口，退出
-
-    for i, win in ipairs(visibleWindows) do
-        if win:isStandard() then -- 只处理标准窗口（排除 Dock 等）
-            local frame = win:frame() -- 获取窗口的框架（位置和大小）
-
-            -- 在窗口上绘制标签（例如，数字 i）
-            local label = drawing.text({
-                x = frame.x + 10, -- 标签的 X 坐标，窗口左边 + 10 像素
-                y = frame.y + 10, -- 标签的 Y 坐标，窗口上边 + 10 像素
-                w = 50, -- 标签宽度
-                h = 20 -- 标签高度
-            }, tostring(i)) -- 文本内容为数字 i
-            label:setTextFont("Arial-Bold")
-            label:setTextSize(24) -- 字体大小
-            label:setTextColor({
-                red = 1,
-                green = 0,
-                blue = 0,
-                alpha = 1
-            }) -- 红色文字
-            label:show() -- 显示标签
-            table.insert(labels, label) -- 将标签添加到数组中
-
-            -- 绑定快捷键：按数字 i 时激活对应窗口
-            local hk = hotkey.new({}, tostring(i), function()
-                win:focus() -- 聚焦到该窗口
-                hs.timer.doAfter(0.1, function()
-                    hs.spaces.toggleMissionControl()
-                end) -- 关闭 Mission Control
-            end)
-            hk:enable() -- 启用快捷键
-            table.insert(mcHotkeys, hk) -- 将快捷键添加到数组中
-        end
-    end
-end
-
-local function hideLabelsInMissionControl()
-    for _, label in ipairs(labels) do
-        label:delete() -- 删除标签
-    end
-    labels = {}
-
-    for _, hk in pairs(mcHotkeys) do
-        hk:delete() -- 删除快捷键
-    end
-    mcHotkeys = {}
-end
-
--- 5. 监听 Mission Control 事件
--- local watcher = spaces.watcher.new(function(event)
---     print("Mission Control event detected:", event)
---     if event == "exposeOpen" then
---         showLabelsInMissionControl()
---     elseif event == "exposeClose" then
---         hideLabelsInMissionControl()
---     end
--- end)
-
--- watcher:start() -- 启动监听
-
---[[ 切换应用 ]]
-hs.hotkey.bind(hyperKey, "x", switch_to_app("WeChat"))
-hs.hotkey.bind(hyperKey, "g", switch_to_app("Google Chrome"))
-hs.hotkey.bind(hyperKey, "e", switch_to_app("Cursor"))
-hs.hotkey.bind(hyperKey, "n", switch_to_app("Obsidian"))
-hs.hotkey.bind(hyperKey, "i", switch_to_app("Warp"))
-hs.hotkey.bind(hyperKey, "c", switch_to_app("Cherry Studio"))
-hs.hotkey.bind(hyperKey, "f", switch_to_app("Figma"))
-hs.hotkey.bind(hyperKey, "m", switch_to_app("iPhone Mirroring"))
-hs.hotkey.bind(hyperKey, "q", switch_to_app("Telegram"))
-hs.hotkey.bind(hyperKey, "y", switch_to_app("DingTalk"))
 
 --[[ 音量调整 ]]
 function changeVolume(diff)
