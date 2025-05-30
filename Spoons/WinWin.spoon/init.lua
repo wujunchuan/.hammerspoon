@@ -138,6 +138,14 @@ function obj:moveAndResize(option)
         local wf = cwin:frame()
         if option == "halfleft" then
             cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h})
+        elseif option == "twothirdsleft" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w*2/3, h=cres.h})
+        elseif option == "twothirdsright" then
+            cwin:setFrame({x=cres.x+cres.w/3, y=cres.y, w=cres.w*2/3, h=cres.h})
+        elseif option == "twothirdsup" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h*2/3})
+        elseif option == "twothirdsdown" then
+            cwin:setFrame({x=cres.x, y=cres.y+cres.h/3, w=cres.w, h=cres.h*2/3})
         elseif option == "halfright" then
             cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h})
         elseif option == "halfup" then
