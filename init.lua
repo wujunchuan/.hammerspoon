@@ -60,7 +60,7 @@ hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
 hyperKey:bind('i'):toApplication('/Applications/Warp.app')
 hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('p'):toApplication('/Applications/Figma.app')
-hyperKey:bind('m'):toApplication('/Applications/iPhone Mirroring.app')
+hyperKey:bind('m'):toApplication('/System/Applications/iPhone Mirroring.app')
 hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
 
 --[[ 
