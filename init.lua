@@ -173,26 +173,25 @@ end
 
 --[[ wifi 监听 ]]
 wifiWatcher = nil
-homeSSID = "XiaomiSB_5G"
+homeSSID = "xiaomiSB_5G"
 officeSSID = "GD-Office"
 lastSSID = hs.wifi.currentNetwork()
 function ssidChangedCallback()
     newSSID = hs.wifi.currentNetwork()
-
     --[[ 办公室 wifi 监听 ]]
     if newSSID == officeSSID and lastSSID ~= officeSSID then
-        print("Joined Office WiFi")
+        hs.alert.show("Joined Office WiFi")
     elseif newSSID ~= officeSSID and lastSSID == officeSSID then
-        print("Departed Office WiFi")
+        hs.alert.show("Departed Office WiFi")
     end
 
     --[[ 家里 wifi 监听 ]]
     if newSSID == homeSSID and lastSSID ~= homeSSID then
         -- We just joined our home WiFi network
-        print("Joined Home WiFi")
-        hs.audiodevice.defaultOutputDevice():setVolume(25)
+        hs.alert.show("Joined Home WiFi")
+        hs.audiodevice.defaultOutputDevice():setVolume(60)
     elseif newSSID ~= homeSSID and lastSSID == homeSSID then
-        print("Departed Home WiFi")
+        hs.alert.show("Departed Home WiFi")
         -- We just departed our home WiFi network
         hs.audiodevice.defaultOutputDevice():setVolume(0)
     end
