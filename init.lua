@@ -62,6 +62,7 @@ hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('m'):toApplication('/Applications/Figma.app')
 hyperKey:bind('r'):toApplication('/System/Applications/iPhone Mirroring.app')
 hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
+hyperKey:bind('d'):toApplication('/Applications/Dia.app')
 
 --[[ 
     在相同应用中切换焦点,
