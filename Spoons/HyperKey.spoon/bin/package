@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo "Cleaning last build..."
+rm -fr ~/Desktop/HyperKey.spoon.zip
+
+echo "Zipping..."
+echo
+
+zip ~/Desktop/HyperKey.spoon.zip *
