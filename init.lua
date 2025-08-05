@@ -60,9 +60,9 @@ hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
 hyperKey:bind('i'):toApplication('/Applications/Warp.app')
 hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('m'):toApplication('/Applications/Figma.app')
-hyperKey:bind('r'):toApplication('/System/Applications/iPhone Mirroring.app')
+hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
 hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
-hyperKey:bind('d'):toApplication('/Applications/Dia.app')
+-- hyperKey:bind('d'):toApplication('/Applications/Dia.app')
 
 --[[ 
     在相同应用中切换焦点,
