@@ -172,36 +172,6 @@ else
     print("Location services are not enabled.")
 end
 
---[[ wifi 监听 ]]
-wifiWatcher = nil
-homeSSID = "xiaomiSB_5G"
-officeSSID = "GD-Office"
-lastSSID = hs.wifi.currentNetwork()
-function ssidChangedCallback()
-    newSSID = hs.wifi.currentNetwork()
-    --[[ 办公室 wifi 监听 ]]
-    if newSSID == officeSSID and lastSSID ~= officeSSID then
-        hs.alert.show("Joined Office WiFi")
-    elseif newSSID ~= officeSSID and lastSSID == officeSSID then
-        hs.alert.show("Departed Office WiFi")
-    end
-
-    --[[ 家里 wifi 监听 ]]
-    if newSSID == homeSSID and lastSSID ~= homeSSID then
-        -- We just joined our home WiFi network
-        hs.alert.show("Joined Home WiFi")
-        hs.audiodevice.defaultOutputDevice():setVolume(60)
-    elseif newSSID ~= homeSSID and lastSSID == homeSSID then
-        hs.alert.show("Departed Home WiFi")
-        -- We just departed our home WiFi network
-        hs.audiodevice.defaultOutputDevice():setVolume(0)
-    end
-
-    lastSSID = newSSID
-end
-wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
-wifiWatcher:start()
-
 --[[ demo: 使用 URL 自动化 Hammerspoon ]]
 --[[ 使用方式： `open -g hammerspoon://someAlert` ]]
 hs.urlevent.bind("someAlert", function(eventName, params)
