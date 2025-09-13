@@ -55,14 +55,16 @@ end)
 --[[ 切换应用 ]]
 hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
 hyperKey:bind('g'):toApplication('/Applications/Google Chrome.app')
-hyperKey:bind('e'):toApplication('/Applications/Cursor.app')
+hyperKey:bind('e'):toApplication('/Applications/Visual Studio Code.app')
 hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
 hyperKey:bind('i'):toApplication('/Applications/Warp.app')
 hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
-hyperKey:bind('m'):toApplication('/Applications/Figma.app')
 hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
-hyperKey:bind('q'):toApplication('/Applications/Telegram.app')
+hyperKey:bind('t'):toApplication('/Applications/Telegram.app')
+hyperKey:bind('f'):toApplication('/System/Library/CoreServices/Finder.app')
+-- hyperKey:bind('m'):toApplication('/Applications/Telegram.app')
 -- hyperKey:bind('d'):toApplication('/Applications/Dia.app')
+
 
 --[[ 
     在相同应用中切换焦点,
