@@ -114,8 +114,8 @@ function changeVolume(diff)
     end
 end
 
-superKey:bind('a'):toFunction('音量减小', changeVolume(-5))
-superKey:bind('s'):toFunction('音量增大', changeVolume(5))
+-- superKey:bind('a'):toFunction('音量减小', changeVolume(-5))
+-- superKey:bind('s'):toFunction('音量增大', changeVolume(5))
 
 --[[ 切换静音/非静音 ]]
 superKey:bind('m'):toFunction('切换静音/非静音', function()
