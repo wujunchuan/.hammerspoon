@@ -8,6 +8,7 @@ local application = hs.application -- 用于处理应用程序
 local HyperKey = hs.loadSpoon("HyperKey")
 local hyper = {'cmd', 'ctrl', 'alt', 'shift'}
 local super = {'cmd', 'alt', 'ctrl'}
+
 local hyperKeyConfig = {
     overlayTimeoutMs = 2000
 }
@@ -46,11 +47,11 @@ local function switch_to_app(appName, bundleID)
 end
 
 -- 需要用到 loop 窗口的特性
-hs.hotkey.bind(hyper, "y", switch_to_app("DingTalk", "com.alibaba.DingTalkMac"))
-hs.hotkey.bind(hyper, "f", function()
-    local sf = hs.screen.primaryScreen():frame()
-    hs.window.focusedWindow():setFrame(hs.geometry.new(sf.x, sf.y, sf.w, sf.h))
-end)
+-- hs.hotkey.bind(hyper, "y", switch_to_app("DingTalk", "com.alibaba.DingTalkMac"))
+-- hs.hotkey.bind(hyper, "f", function()
+--     local sf = hs.screen.primaryScreen():frame()
+--     hs.window.focusedWindow():setFrame(hs.geometry.new(sf.x, sf.y, sf.w, sf.h))
+-- end)
 
 --[[ 切换应用 ]]
 hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
@@ -63,9 +64,11 @@ hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
 hyperKey:bind('t'):toApplication('/Applications/Telegram.app') 
 hyperKey:bind('f'):toApplication('/System/Library/CoreServices/Finder.app')
-hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/LarkSuite.app')
-hyperKey:bind('m'):toApplication('/System/Volumes/Data/Applications/Spark.app')
+-- hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/LarkSuite.app')
+hyperKey:bind('m'):toApplication('/System/Volumes/Data/Applications/Figma.app')
+hyperKey:bind('a'):toApplication('/System/Volumes/Data/Applications/ChatGPT Atlas.app')
 
+hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/Fork.app');
 
 --[[ 
     在相同应用中切换焦点,
