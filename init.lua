@@ -56,7 +56,8 @@ end
 --[[ 切换应用 ]]
 hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
 hyperKey:bind('g'):toApplication('/Applications/Google Chrome.app')
-hyperKey:bind('e'):toApplication('/Applications/Visual Studio Code.app')
+-- hyperKey:bind('e'):toApplication('/Applications/Visual Studio Code.app')
+hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Antigravity.app')
 hyperKey:bind('s'):toApplication('/Applications/Cursor.app')
 hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
 hyperKey:bind('i'):toApplication('/Applications/Warp.app')
