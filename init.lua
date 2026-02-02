@@ -67,7 +67,7 @@ hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
 hyperKey:bind('t'):toApplication('/Applications/Telegram.app') 
 hyperKey:bind('f'):toApplication('/System/Library/CoreServices/Finder.app')
 -- hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/LarkSuite.app')
-hyperKey:bind('m'):toApplication('/System/Volumes/Data/Applications/Figma.app')
+hyperKey:bind('s'):toApplication('/System/Volumes/Data/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app')
 -- hyperKey:bind('a'):toApplication('/System/Volumes/Data/Applications/ChatGPT Atlas.app')
 
 hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/Fork.app');
