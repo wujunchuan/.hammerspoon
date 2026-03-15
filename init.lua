@@ -1,13 +1,13 @@
-local drawing = hs.drawing -- 用于在屏幕上绘制文本
-local window = hs.window -- 用于处理窗口
-local hotkey = hs.hotkey -- 用于绑定键盘快捷键
-local spaces = hs.spaces -- 用于检测 Mission Control
+local drawing = hs.drawing         -- 用于在屏幕上绘制文本
+local window = hs.window           -- 用于处理窗口
+local hotkey = hs.hotkey           -- 用于绑定键盘快捷键
+local spaces = hs.spaces           -- 用于检测 Mission Control
 local application = hs.application -- 用于处理应用程序
 
 --[[ init HyperKey ]]
 local HyperKey = hs.loadSpoon("HyperKey")
-local hyper = {'cmd', 'ctrl', 'alt', 'shift'}
-local super = {'cmd', 'alt', 'ctrl'}
+local hyper = { 'cmd', 'ctrl', 'alt', 'shift' }
+local super = { 'cmd', 'alt', 'ctrl' }
 
 local hyperKeyConfig = {
     overlayTimeoutMs = 2000
@@ -57,7 +57,8 @@ end
 hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
 hyperKey:bind('g'):toApplication('/Applications/Google Chrome.app')
 -- hyperKey:bind('e'):toApplication('/Applications/Visual Studio Code.app')
-hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Antigravity.app')
+-- hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Antigravity.app')
+hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Zed.app')
 -- hyperKey:bind('s'):toApplication('/Applications/Cursor.app')
 hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
 hyperKey:bind('i'):toApplication('/Applications/Warp.app')
@@ -65,15 +66,16 @@ hyperKey:bind('i'):toApplication('/Applications/Warp.app')
 -- hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('c'):toApplication('/System/Volumes/Data/Applications/Codex.app')
 hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
-hyperKey:bind('t'):toApplication('/Applications/Telegram.app') 
+hyperKey:bind('t'):toApplication('/Applications/Telegram.app')
 hyperKey:bind('f'):toApplication('/System/Library/CoreServices/Finder.app')
 -- hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/LarkSuite.app')
-hyperKey:bind('s'):toApplication('/System/Volumes/Data/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app')
--- hyperKey:bind('a'):toApplication('/System/Volumes/Data/Applications/ChatGPT Atlas.app')
+hyperKey:bind('s'):toApplication(
+    '/System/Volumes/Data/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app')
+hyperKey:bind('a'):toApplication('/System/Volumes/Data/Applications/Cherry Studio.app')
 
 hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/Fork.app');
 
---[[ 
+--[[
     在相同应用中切换焦点,
     与 `right_command + `` 不同的是，前者会在所有应用中切换焦点，而后者只会在当前应用与前一个应用中切换焦点
  ]]
@@ -120,8 +122,8 @@ function changeVolume(diff)
     end
 end
 
--- superKey:bind('a'):toFunction('音量减小', changeVolume(-5))
--- superKey:bind('s'):toFunction('音量增大', changeVolume(5))
+superKey:bind('a'):toFunction('音量减小', changeVolume(-5))
+superKey:bind('s'):toFunction('音量增大', changeVolume(5))
 
 --[[ 切换静音/非静音 ]]
 superKey:bind('m'):toFunction('切换静音/非静音', function()
@@ -197,11 +199,14 @@ hs.loadSpoon("WinWin")
 if spoon.WinWin then
     spoon.ModalMgr:new("resizeM")
     local cmodal = spoon.ModalMgr.modal_list["resizeM"]
-    cmodal:bind('', 'escape', '退出 ', function() spoon.ModalMgr:deactivate({"resizeM"}) end)
-    cmodal:bind('', 'Q', '退出', function() spoon.ModalMgr:deactivate({"resizeM"}) end)
+    cmodal:bind('', 'escape', '退出 ', function() spoon.ModalMgr:deactivate({ "resizeM" }) end)
+    cmodal:bind('', 'Q', '退出', function() spoon.ModalMgr:deactivate({ "resizeM" }) end)
     cmodal:bind('', 'tab', '键位提示', function() spoon.ModalMgr:toggleCheatsheet() end)
 
-    cmodal:bind('', '1', '移动到另外一个屏幕', function() spoon.WinWin:stash() spoon.WinWin:moveToScreen("next") end)
+    cmodal:bind('', '1', '移动到另外一个屏幕', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveToScreen("next")
+    end)
 
     --[[ 2/3 屏 ]]
     cmodal:bind('', 'A', '向左移动', function() spoon.WinWin:moveAndResize("twothirdsleft") end)
@@ -210,35 +215,86 @@ if spoon.WinWin then
     cmodal:bind('', 'S', '向下移动', function() spoon.WinWin:moveAndResize("twothirdsdown") end)
 
     --[[ 移动 ]]
-    cmodal:bind('', 'left', '向左移动', function() spoon.WinWin:stepMove("left") end, nil, function() spoon.WinWin:stepMove("left") end)
-    cmodal:bind('', 'right', '向右移动', function() spoon.WinWin:stepMove("right") end, nil, function() spoon.WinWin:stepMove("right") end)
-    cmodal:bind('', 'up', '向上移动', function() spoon.WinWin:stepMove("up") end, nil, function() spoon.WinWin:stepMove("up") end)
-    cmodal:bind('', 'down', '向下移动', function() spoon.WinWin:stepMove("down") end, nil, function() spoon.WinWin:stepMove("down") end)
+    cmodal:bind('', 'left', '向左移动', function() spoon.WinWin:stepMove("left") end, nil,
+        function() spoon.WinWin:stepMove("left") end)
+    cmodal:bind('', 'right', '向右移动', function() spoon.WinWin:stepMove("right") end, nil,
+        function() spoon.WinWin:stepMove("right") end)
+    cmodal:bind('', 'up', '向上移动', function() spoon.WinWin:stepMove("up") end, nil,
+        function() spoon.WinWin:stepMove("up") end)
+    cmodal:bind('', 'down', '向下移动', function() spoon.WinWin:stepMove("down") end, nil,
+        function() spoon.WinWin:stepMove("down") end)
 
     --[[ 半屏 ]]
-    cmodal:bind('', 'H', '左半屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfleft") end)
-    cmodal:bind('', '[', '左半屏-2', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfleft") end)
+    cmodal:bind('', 'H', '左半屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfleft")
+    end)
+    cmodal:bind('', '[', '左半屏-2', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfleft")
+    end)
 
-    cmodal:bind('', 'L', '右半屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfright") end)
-    cmodal:bind('', ']', '右半屏-2', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfright") end)
+    cmodal:bind('', 'L', '右半屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfright")
+    end)
+    cmodal:bind('', ']', '右半屏-2', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfright")
+    end)
 
-    cmodal:bind('', 'K', '上半屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfup") end)
-    cmodal:bind('', ';', '上半屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfup") end)
+    cmodal:bind('', 'K', '上半屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfup")
+    end)
+    cmodal:bind('', ';', '上半屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfup")
+    end)
 
-    cmodal:bind('', 'J', '下半屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfdown") end)
-    cmodal:bind('', '\'', '下半屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("halfdown") end)
+    cmodal:bind('', 'J', '下半屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfdown")
+    end)
+    cmodal:bind('', '\'', '下半屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("halfdown")
+    end)
 
-    cmodal:bind('', 'Y', '屏幕左上角', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("cornerNW") end)
-    cmodal:bind('', 'O', '屏幕右上角', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("cornerNE") end)
-    cmodal:bind('', 'U', '屏幕左下角', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("cornerSW") end)
-    cmodal:bind('', 'I', '屏幕右下角', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("cornerSE") end)
+    cmodal:bind('', 'Y', '屏幕左上角', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("cornerNW")
+    end)
+    cmodal:bind('', 'O', '屏幕右上角', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("cornerNE")
+    end)
+    cmodal:bind('', 'U', '屏幕左下角', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("cornerSW")
+    end)
+    cmodal:bind('', 'I', '屏幕右下角', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("cornerSE")
+    end)
 
-    cmodal:bind('', 'F', '全屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("fullscreen") end)
-    cmodal:bind('', 'space', '全屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("fullscreen") end)
-    cmodal:bind('', 'C', '居中', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("center") end)
+    cmodal:bind('', 'F', '全屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("fullscreen")
+    end)
+    cmodal:bind('', 'space', '全屏', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("fullscreen")
+    end)
+    cmodal:bind('', 'C', '居中', function()
+        spoon.WinWin:stash()
+        spoon.WinWin:moveAndResize("center")
+    end)
 
-    cmodal:bind('', '=', '窗口放大', function() spoon.WinWin:moveAndResize("expand") end, nil, function() spoon.WinWin:moveAndResize("expand") end)
-    cmodal:bind('', '-', '窗口缩小', function() spoon.WinWin:moveAndResize("shrink") end, nil, function() spoon.WinWin:moveAndResize("shrink") end)
+    cmodal:bind('', '=', '窗口放大', function() spoon.WinWin:moveAndResize("expand") end, nil,
+        function() spoon.WinWin:moveAndResize("expand") end)
+    cmodal:bind('', '-', '窗口缩小', function() spoon.WinWin:moveAndResize("shrink") end, nil,
+        function() spoon.WinWin:moveAndResize("shrink") end)
 
     cmodal:bind('', 'B', '撤销最后一个窗口操作', function() spoon.WinWin:undo() end)
     cmodal:bind('', 'R', '重做最后一个窗口操作', function() spoon.WinWin:redo() end)
@@ -247,12 +303,12 @@ if spoon.WinWin then
 
     local function enterResizeM()
         spoon.ModalMgr:deactivateAll()
-        spoon.ModalMgr:activate({"resizeM"}, "#B22222", false)
+        spoon.ModalMgr:activate({ "resizeM" }, "#B22222", false)
     end
 
     spoon.ModalMgr.supervisor:bind('ctrl', "space", "进入窗口管理模式", enterResizeM)
     spoon.ModalMgr.supervisor:bind(hyper, "r", "进入窗口管理模式", enterResizeM)
-    spoon.ModalMgr.supervisor:bind({"cmd", "ctrl"}, "space", "进入窗口管理模式", enterResizeM)
+    spoon.ModalMgr.supervisor:bind({ "cmd", "ctrl" }, "space", "进入窗口管理模式", enterResizeM)
 end
 
 
