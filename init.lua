@@ -10,7 +10,8 @@ local hyper = { 'cmd', 'ctrl', 'alt', 'shift' }
 local super = { 'cmd', 'alt', 'ctrl' }
 
 local hyperKeyConfig = {
-    overlayTimeoutMs = 2000
+    -- 显示提示面板的时间（避免误触，时间设置久一点）
+    overlayTimeoutMs = 10000
 }
 hyperKey = HyperKey:new(hyper, hyperKeyConfig)
 superKey = HyperKey:new(super, hyperKeyConfig)
@@ -58,15 +59,16 @@ hyperKey:bind('x'):toApplication('/Applications/WeChat.app')
 hyperKey:bind('g'):toApplication('/Applications/Google Chrome.app')
 -- hyperKey:bind('e'):toApplication('/Applications/Visual Studio Code.app')
 -- hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Antigravity.app')
-hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Zed.app')
+superKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Zed.app')
+hyperKey:bind('e'):toApplication('/System/Volumes/Data/Applications/Antigravity.app')
 -- hyperKey:bind('s'):toApplication('/Applications/Cursor.app')
 hyperKey:bind('n'):toApplication('/Applications/Obsidian.app')
-hyperKey:bind('i'):toApplication('/Applications/Warp.app')
--- hyperKey:bind('i'):toApplication('/System/Volumes/Data/Applications/Ghostty.app')
+superKey:bind('i'):toApplication('/Applications/Warp.app')
+hyperKey:bind('i'):toApplication('/System/Volumes/Data/Applications/Ghostty.app')
 -- hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('c'):toApplication('/System/Volumes/Data/Applications/Codex.app')
 hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
-hyperKey:bind('t'):toApplication('/Applications/Telegram.app')
+-- hyperKey:bind('t'):toApplication('/Applications/Telegram.app')
 hyperKey:bind('f'):toApplication('/System/Library/CoreServices/Finder.app')
 -- hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/LarkSuite.app')
 hyperKey:bind('s'):toApplication(
@@ -314,3 +316,12 @@ end
 
 
 spoon.ModalMgr.supervisor:enter()
+
+-- 快捷键切换输入法
+local English = "com.apple.keylayout.ABC" -- 英文输入法
+local Chinese_1 = "com.tencent.inputmethod.wetype.pinyin" -- 微信输入法
+local Chinese_2 = "com.bytedance.inputmethod.doubaoime.pinyin" -- 豆包输入法
+
+hyperKey:bind('1'):toFunction('切换到英文', function() hs.keycodes.currentSourceID(English) end)
+hyperKey:bind('2'):toFunction('切换到微信输入法', function() hs.keycodes.currentSourceID(Chinese_1) end)
+hyperKey:bind('3'):toFunction('切换到豆包输入法', function() hs.keycodes.currentSourceID(Chinese_2) end)
