@@ -308,9 +308,9 @@ if spoon.WinWin then
         spoon.ModalMgr:activate({ "resizeM" }, "#B22222", false)
     end
 
-    spoon.ModalMgr.supervisor:bind('ctrl', "space", "进入窗口管理模式", enterResizeM)
+    -- spoon.ModalMgr.supervisor:bind('ctrl', "space", "进入窗口管理模式", enterResizeM)
+    -- spoon.ModalMgr.supervisor:bind({ "cmd", "ctrl" }, "space", "进入窗口管理模式", enterResizeM)
     spoon.ModalMgr.supervisor:bind(hyper, "r", "进入窗口管理模式", enterResizeM)
-    spoon.ModalMgr.supervisor:bind({ "cmd", "ctrl" }, "space", "进入窗口管理模式", enterResizeM)
 end
 
 
