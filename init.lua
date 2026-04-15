@@ -67,13 +67,14 @@ superKey:bind('i'):toApplication('/Applications/Warp.app')
 hyperKey:bind('i'):toApplication('/System/Volumes/Data/Applications/Ghostty.app')
 -- hyperKey:bind('c'):toApplication('/Applications/Cherry Studio.app')
 hyperKey:bind('c'):toApplication('/System/Volumes/Data/Applications/Codex.app')
+superKey:bind('c'):toApplication('/System/Volumes/Data/Applications/CC Switch.app')
 hyperKey:bind('o'):toApplication('/System/Applications/iPhone Mirroring.app')
 -- hyperKey:bind('t'):toApplication('/Applications/Telegram.app')
 hyperKey:bind('f'):toApplication('/System/Library/CoreServices/Finder.app')
 -- hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/LarkSuite.app')
 hyperKey:bind('s'):toApplication(
     '/System/Volumes/Data/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app')
-hyperKey:bind('a'):toApplication('/System/Volumes/Data/Applications/Cherry Studio.app')
+-- hyperKey:bind('a'):toApplication('/System/Volumes/Data/Applications/Cherry Studio.app')
 
 hyperKey:bind('y'):toApplication('/System/Volumes/Data/Applications/Fork.app');
 
@@ -309,7 +310,7 @@ if spoon.WinWin then
     end
 
     -- spoon.ModalMgr.supervisor:bind('ctrl', "space", "进入窗口管理模式", enterResizeM)
-    -- spoon.ModalMgr.supervisor:bind({ "cmd", "ctrl" }, "space", "进入窗口管理模式", enterResizeM)
+    spoon.ModalMgr.supervisor:bind({ "cmd", "ctrl" }, "space", "进入窗口管理模式", enterResizeM)
     spoon.ModalMgr.supervisor:bind(hyper, "r", "进入窗口管理模式", enterResizeM)
 end
 
